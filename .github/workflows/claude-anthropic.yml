@@ -24,8 +24,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Claude Code Action
-        uses: anthropics/claude-code-action@v1
+      - name: Run Claude Code
+        uses: anthropics/claude-code-action@main
         with:
           trigger_phrase: "@claude"
           timeout_minutes: "60"
