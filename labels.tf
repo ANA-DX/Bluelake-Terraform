@@ -6,7 +6,7 @@ resource "github_issue_label" "labels" {
       "${repo}:${label_key}" => merge(label, { repository = repo })
     }
   ]...) : {}
-  
+
   repository  = each.value.repository
   name        = each.value.name
   color       = each.value.color

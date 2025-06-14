@@ -54,6 +54,15 @@ terraform import 'github_repository_webhook.repo_webhooks["KEY"]' REPO_NAME/WEBH
 
 # Import labels (use the provided script)
 ./import-labels.sh
+
+# Import organization members
+terraform import 'github_membership.org_members["USERNAME"]' ANA-DX:USERNAME
+
+# Import repository collaborators
+terraform import 'github_repository_collaborator.repo_collaborators["REPO:USER"]' REPO:USER
+
+# Import teams
+terraform import 'github_team.teams["TEAM_NAME"]' TEAM_ID
 ```
 
 ## Architecture
@@ -65,7 +74,7 @@ The codebase is organized by resource type:
 - **main.tf**: Provider configuration and core variables
 - **organization.tf** + **organization-variables.tf**: GitHub organization settings and security configurations
 - **repositories.tf**: Repository management and branch protection rules
-- **users.tf**: User data sources and organization membership
+- **users.tf**: User management (organization membership, repository collaborators, teams)
 - **github.tf**: GitHub Actions secrets for Claude API
 - **webhooks.tf**: Repository webhooks configuration
 - **labels.tf**: Standardized issue labels across repositories
@@ -84,6 +93,9 @@ The codebase is organized by resource type:
 - `anthropic_api_key`: Claude AI API key (sensitive)
 - `manage_organization`: Toggle for organization-level management
 - `enable_claude_for_all_repos`: Enable Claude GitHub Actions across repositories
+- `manage_org_members`: Toggle for managing organization membership
+- `manage_repo_collaborators`: Toggle for managing repository collaborators
+- `manage_teams`: Toggle for managing GitHub teams
 
 ### GitHub Actions Integration
 

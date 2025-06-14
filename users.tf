@@ -1,6 +1,6 @@
 # Data source for current authenticated user
 data "github_user" "current" {
-  username = ""  # Empty string gets the current authenticated user
+  username = "" # Empty string gets the current authenticated user
 }
 
 # Organization information variable (to avoid permission issues)
@@ -23,7 +23,7 @@ data "github_user" "users" {
 # Note: Managing org membership requires org owner permissions
 resource "github_membership" "org_members" {
   for_each = var.manage_org_members ? toset(var.github_users) : toset([])
-  
+
   username = each.value
   role     = lookup(var.github_user_roles, each.value, "member")
 }
@@ -32,7 +32,7 @@ resource "github_membership" "org_members" {
 resource "github_repository_collaborator" "repo_collaborators" {
   for_each = var.manage_repo_collaborators ? merge([
     for repo in var.github_repositories : {
-      for user in var.repository_collaborators[repo] : 
+      for user in var.repository_collaborators[repo] :
       "${repo}:${user}" => {
         repository = repo
         username   = user
@@ -41,7 +41,7 @@ resource "github_repository_collaborator" "repo_collaborators" {
       if contains(keys(var.repository_collaborators), repo)
     }
   ]...) : {}
-  
+
   repository = each.value.repository
   username   = each.value.username
   permission = each.value.permission
@@ -50,7 +50,7 @@ resource "github_repository_collaborator" "repo_collaborators" {
 # Teams (if needed in the future)
 resource "github_team" "teams" {
   for_each = var.manage_teams ? var.github_teams : {}
-  
+
   name        = each.key
   description = each.value.description
   privacy     = each.value.privacy
@@ -68,7 +68,7 @@ resource "github_team_membership" "team_members" {
       }
     }
   ]...) : {}
-  
+
   team_id  = each.value.team_id
   username = each.value.username
   role     = each.value.role
