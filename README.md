@@ -33,7 +33,7 @@ This repository integrates Claude AI via Anthropic API for automated code review
 
 4. **Install Claude GitHub App**:
    - Visit https://github.com/apps/claude
-   - Install it to the ANA-DX/Bluelake repository
+   - Install it to the ANA-DX/Bluelake-Terraform repository
 
 5. **Push changes to repository**:
    ```bash
