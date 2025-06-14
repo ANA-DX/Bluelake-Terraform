@@ -1,0 +1,37 @@
+name: Claude PR Action with Anthropic API
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+on:
+  issue_comment:
+    types: [created]
+  pull_request_review_comment:
+    types: [created]
+  issues:
+    types: [opened, assigned]
+
+jobs:
+  claude-pr:
+    if: |
+      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||
+      (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude')) ||
+      (github.event_name == 'issues' && contains(github.event.issue.body, '@claude'))
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Claude Code Action
+        uses: anthropics/claude-code-action@v1
+        with:
+          trigger_phrase: "@claude"
+          timeout_minutes: "60"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          model: "claude-3-5-sonnet-20241022"
+          # Alternative models:
+          # model: "claude-3-opus-20240229"
+          # model: "claude-3-5-haiku-20241022"
