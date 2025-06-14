@@ -24,14 +24,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run Claude Code
-        uses: anthropics/claude-code-action@main
+      - name: Run Claude PR Action
+        uses: anthropics/claude-code-action@beta
         with:
-          trigger_phrase: "@claude"
-          timeout_minutes: "60"
-          github_token: ${{ secrets.GITHUB_TOKEN }}
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          model: "claude-3-5-sonnet-20241022"
-          # Alternative models:
-          # model: "claude-3-opus-20240229"
-          # model: "claude-3-5-haiku-20241022"
+          timeout_minutes: "60"
